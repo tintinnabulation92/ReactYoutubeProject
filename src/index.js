@@ -1,15 +1,34 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
+import YTSearch from 'youtube-api-search';
+import VideoList from './components/video_list';
 
 const API_KEY = 'AIzaSyDWoeIyBsle7HmK_gwoT5N3fUcOYCfefkc';
 
-const App = () => {
-  return
+//generate jsx
+class App extends Component{
 
-  <div>
-    <SearchBar />
-  </div>;
+constructor(props){
+  super(props);
+
+  this.state  = { videos : [] };
+
+  YTSearch ({key: API_KEY, term: 'blok ekipa'}, (videos) => {
+    this.setState({ videos });
+    console.log(videos);
+  });
 }
 
+  render() {
+    return (
+      <div>
+        <SearchBar />
+        <VideoList videos = {this.state.videos} />
+      </div>
+    );
+  }
+};
+
+//put the component on the page
 ReactDOM.render(<App />, document.querySelector('.container'));
